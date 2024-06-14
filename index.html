@@ -12,9 +12,19 @@
     </style>
 </head>
 <body>
-  <canvas id="canvas">
+    <canvas id="canvas">
     您的浏览器不支持html5 canvas
-  </canvas>
+    </canvas>
+
+    <script>
+        const canvas = document.getElementById("canvas")
+        const context = canvas.getContext("2d")
+        // 设置文字样式
+        context.font = "italic 1000 20px STHeiti"
+        context.fillStyle = "##FF0000"
+        context.fillText("挡板小游戏", 10, 30)
+    </script>
+
 
 </body>
 </html>
