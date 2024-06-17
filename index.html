@@ -19,10 +19,17 @@
     <script>
         const canvas = document.getElementById("canvas")
         const context = canvas.getContext("2d")
+        const title = "挡板小游戏"
         // 设置文字样式
         context.font = "italic 1000 20px STHeiti"
-        context.fillStyle = "##FF0000"
-        context.fillText("挡板小游戏", 10, 30)
+        // context.fillStyle = "##FF0000"
+        // 设置渐变样式
+        const grd = context.createLinearGradient(0,0,context.measureText(title).width,0)
+        grd.addColorStop(0,"red")
+        grd.addColorStop(0.5,"white")
+        grd.addColorStop(1,"blue")
+        context.fillStyle = grd
+        context.fillText(title, 10, 30)
     </script>
 
 
