@@ -22,14 +22,23 @@
         const title = "挡板小游戏"
         // 设置文字样式
         context.font = "italic 1000 20px STHeiti"
+        const titleWidth = context.measureText(title).width
+        const titleHight = context.measureText("M").width
+        // 文字居中位置
+        const xmid = (canvas.width - titleWidth)/2
+        const ymid = (canvas.height-titleHight)/2
+        // 设置文本绘制基线
+        context.textBaseline = 'top'
+        context.textAlign = 'left'
         // context.fillStyle = "##FF0000"
         // 设置渐变样式
-        const grd = context.createLinearGradient(0,0,context.measureText(title).width,0)
+        const grd = context.createLinearGradient(xmid,0,xmid+titleWidth,0)
         grd.addColorStop(0,"red")
         grd.addColorStop(0.5,"white")
         grd.addColorStop(1,"blue")
         context.fillStyle = grd
-        context.fillText(title, 10, 30)
+        context.fillText(title, xmid, ymid)
+        // 替代方案是直接用canvas的中线来定位，只需调整文本的textBaseline和textAlign即可
     </script>
 
 
