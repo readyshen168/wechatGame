@@ -57,19 +57,14 @@
         context.fillText(title, xmid, ymid)
         // 替代方案是直接用canvas的中线来定位，只需调整文本的textBaseline和textAlign即可
 
-        // 绘制挡板
+        // 用rect绘制挡板
         const panelHeight = 50
-        // 加厚挡板
-        context.lineWidth = 10
-        // 挡板设置圆角
-        context.lineCap = "round"
+        // 用这个方法无法直接设置两端为圆角，只有线段才行
+        // context.lineCap = "round"
         context.beginPath()
-        context.moveTo(canvas.width-6, (canvas.height-panelHeight)/2)
-        context.lineTo(canvas.width-6, (canvas.height+panelHeight)/2)
-        context.strokeStyle = "black"
-        context.stroke()
-
-
+        context.rect(canvas.width-10, (canvas.height-panelHeight)/2, 10, panelHeight)
+        context.fillStyle = "brown"
+        context.fill()
     </script>
 
 
