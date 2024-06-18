@@ -31,6 +31,12 @@
         context.fillStyle = "whitesmoke"
         context.fill()
 
+        // 添加阴影效果
+        context.shadowBlur = 1
+        context.shadowOffsetX = 2
+        context.shadowOffsetY = 2
+        context.shadowColor = "grey"
+
         // 设置文字样式
         context.font = "italic 1000 20px STHeiti"
         const titleWidth = context.measureText(title).width
