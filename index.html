@@ -39,6 +39,14 @@
         context.fillStyle = grd
         context.fillText(title, xmid, ymid)
         // 替代方案是直接用canvas的中线来定位，只需调整文本的textBaseline和textAlign即可
+
+        // 绘制挡板
+        const panelHeight = 50
+        context.beginPath()
+        context.moveTo(canvas.width, (canvas.height-panelHeight)/2)
+        context.lineTo(canvas.width, (canvas.height+panelHeight)/2)
+        context.strokeStyle = "black"
+        context.stroke()
     </script>
 
 
