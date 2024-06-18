@@ -20,6 +20,17 @@
         const canvas = document.getElementById("canvas")
         const context = canvas.getContext("2d")
         const title = "挡板小游戏"
+
+        // 给画布添加浅色背景
+        context.beginPath()
+        context.moveTo(0,0)
+        context.lineTo(canvas.width, 0)
+        context.lineTo(canvas.width, canvas.height)
+        context.lineTo(0, canvas.height)
+        context.lineTo(0,0)
+        context.fillStyle = "whitesmoke"
+        context.fill()
+
         // 设置文字样式
         context.font = "italic 1000 20px STHeiti"
         const titleWidth = context.measureText(title).width
@@ -47,6 +58,8 @@
         context.lineTo(canvas.width, (canvas.height+panelHeight)/2)
         context.strokeStyle = "black"
         context.stroke()
+
+
     </script>
 
 
