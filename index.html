@@ -53,6 +53,8 @@
 
         // 绘制挡板
         const panelHeight = 50
+        // 加厚挡板
+        context.lineWidth = 10
         context.beginPath()
         context.moveTo(canvas.width, (canvas.height-panelHeight)/2)
         context.lineTo(canvas.width, (canvas.height+panelHeight)/2)
