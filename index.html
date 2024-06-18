@@ -55,9 +55,11 @@
         const panelHeight = 50
         // 加厚挡板
         context.lineWidth = 10
+        // 挡板设置圆角
+        context.lineCap = "round"
         context.beginPath()
-        context.moveTo(canvas.width, (canvas.height-panelHeight)/2)
-        context.lineTo(canvas.width, (canvas.height+panelHeight)/2)
+        context.moveTo(canvas.width-6, (canvas.height-panelHeight)/2)
+        context.lineTo(canvas.width-6, (canvas.height+panelHeight)/2)
         context.strokeStyle = "black"
         context.stroke()
 
