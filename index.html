@@ -17,9 +17,9 @@
     </canvas>
 
     <script>
-        const canvas = document.getElementById("canvas")
-        const context = canvas.getContext("2d")
-        const title = "挡板小游戏"
+        const canvas = document.getElementById("canvas"),
+        context = canvas.getContext("2d"),
+        title = "挡板小游戏"
 
         // 给画布添加浅色背景
         context.beginPath()
@@ -39,11 +39,11 @@
 
         // 设置文字样式
         context.font = "italic 1000 20px STHeiti"
-        const titleWidth = context.measureText(title).width
-        const titleHight = context.measureText("M").width
+        const titleWidth = context.measureText(title).width,
+        titleHight = context.measureText("M").width,
         // 文字居中位置
-        const xmid = (canvas.width - titleWidth)/2
-        const ymid = (canvas.height-titleHight)/2
+        xmid = (canvas.width - titleWidth)/2,
+        ymid = (canvas.height-titleHight)/2
         // 设置文本绘制基线
         context.textBaseline = 'top'
         context.textAlign = 'left'
