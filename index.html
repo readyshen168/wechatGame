@@ -58,8 +58,8 @@
         // 替代方案是直接用canvas的中线来定位，只需调整文本的textBaseline和textAlign即可
 
         // 用fillRect绘制挡板
-        const panelHeight = 50
-        const panelWidth = 10
+        const panelHeight = 50,
+        panelWidth = 10
         context.fillStyle = "brown"
         context.fillRect(canvas.width-panelWidth, (canvas.height-panelHeight)/2, panelWidth, panelHeight)
         // 无需context.fill()，若保留则会填充整个画布
