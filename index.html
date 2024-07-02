@@ -31,6 +31,13 @@
         context.fillStyle = "whitesmoke"
         context.fill()
 
+        // 绘制分界线，注意绘制顺序
+        context.moveTo(canvas.width/2, 0)
+        context.lineTo(canvas.width/2, canvas.height)
+        context.strokeStyle = "white"
+        context.lineWidth = 1
+        context.stroke()
+
         // 添加阴影效果
         context.shadowBlur = 1
         context.shadowOffsetX = 2
