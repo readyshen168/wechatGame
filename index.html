@@ -64,30 +64,15 @@
         context.fillRect(canvas.width-panelWidth, (canvas.height-panelHeight)/2, panelWidth, panelHeight)
         // 无需context.fill()，若保留则会填充整个画布
 
-        // 用artTo绘制小球
-        const radius = 10,
-            halfWidth = canvas.width/2,
-            halfHeight = canvas.height/2,
-        p1 = {x:halfWidth + radius, y:halfHeight}
-        p2 = {x:halfWidth, y:halfHeight+radius}
-        p3 = {x:halfWidth - radius, y:halfHeight}
-        p4 = {x:halfWidth, y:halfHeight-radius}
-        // 切线控制点
-        p12 = {x:p1.x, y:p2.y}
-        p23 = {x:p3.x, y:p2.y}
-        p34 = {x:p3.x, y:p4.y}
-        p41 = {x:p1.x, y:p4.y}
-        // 开始绘制
+        // 用arc方法绘制小球
+        const radius = 10
         context.beginPath()
-        context.moveTo(p1.x, p1.y)
-        context.arcTo(p12.x, p12.y, p2.x, p2.y, radius)
-        context.arcTo(p23.x, p23.y, p3.x, p3.y, radius)
-        context.arcTo(p34.x, p34.y, p4.x, p4.y, radius)
-        context.arcTo(p41.x, p41.y, p1.x, p1.y, radius)
-        context.fillStyle = "black"
+        context.arc(canvas.width/2, canvas.height/2, radius, 0, 2 * Math.PI)
         context.fillStyle = "white"
+        context.strokeStyle = "black"
         context.stroke()
         context.fill()
+
     </script>
 
 
