@@ -31,18 +31,20 @@
         context.fillStyle = "whitesmoke"
         context.fill()
 
-        // 绘制渐变分界线，注意绘制顺序
-        const grd_line = context.createLinearGradient(canvas.width/2, 0, canvas.width/2, canvas.height)
-        grd_line.addColorStop(0, "grey")
-        grd_line.addColorStop(0.25, "#ffffff00")
-        grd_line.addColorStop(0.5, "grey")
-        grd_line.addColorStop(0.75, "#ffffff00")
-        grd_line.addColorStop(1, "grey")
+        // 使用循环体绘制虚线作为分界线
+        const dashGap = 10
+        let StartY = 0
         context.beginPath()
-        context.moveTo(canvas.width/2, 0)
-        context.lineTo(canvas.width/2, canvas.height)
-        context.strokeStyle = grd_line
-        context.lineWidth = 2
+        while(StartY <= canvas.height){
+            // 移动到起始点StartY
+            context.moveTo(canvas.width/2, StartY)
+            // lineTo到起始点加一段距离dashGap
+            context.lineTo(canvas.width/2, StartY+dashGap)
+            // StartX加2倍的dashGap
+            StartY += 2*dashGap
+        }
+        context.lineWidth = 1
+        context.strokeStyle = "grey"
         context.stroke()
 
         // 添加阴影效果
