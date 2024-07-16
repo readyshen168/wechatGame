@@ -89,6 +89,17 @@
         context.stroke()
         context.fill()
 
+        // 使用定时器让小球动起来
+        let ballPos = {x: canvas.width/2, y: canvas.height/2}
+        setInterval(function (){
+            ballPos.x += 2
+            ballPos.y += 2
+            context.fillStyle = "white"
+            context.beginPath()
+            context.arc(ballPos.x, ballPos.y, radius, 0, 2*Math.PI)
+            context.fill()
+        }, 500)
+
     </script>
 
 
