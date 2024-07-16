@@ -21,85 +21,86 @@
         context = canvas.getContext("2d"),
         title = "挡板小游戏"
 
-        // 给画布添加浅色背景
-        context.beginPath()
-        context.moveTo(0,0)
-        context.lineTo(canvas.width, 0)
-        context.lineTo(canvas.width, canvas.height)
-        context.lineTo(0, canvas.height)
-        context.lineTo(0,0)
-        context.fillStyle = "whitesmoke"
-        context.fill()
-
-        // 使用循环体绘制虚线作为分界线
-        const dashGap = 10
-        let StartY = 0
-        context.beginPath()
-        while(StartY <= canvas.height){
-            // 移动到起始点StartY
-            context.moveTo(canvas.width/2, StartY)
-            // lineTo到起始点加一段距离dashGap
-            context.lineTo(canvas.width/2, StartY+dashGap)
-            // StartX加2倍的dashGap
-            StartY += 2*dashGap
-        }
-        context.lineWidth = 1
-        context.strokeStyle = "grey"
-        context.stroke()
-
-        // 添加阴影效果
-        context.shadowBlur = 1
-        context.shadowOffsetX = 2
-        context.shadowOffsetY = 2
-        context.shadowColor = "grey"
-
-        // 设置文字样式
-        context.font = "italic 1000 20px STHeiti"
-        const titleWidth = context.measureText(title).width,
-        titleHight = context.measureText("M").width,
-        // 文字居中位置
-        xmid = (canvas.width - titleWidth)/2,
-        ymid = (canvas.height-titleHight)/2
-        // 设置文本绘制基线
-        context.textBaseline = 'top'
-        context.textAlign = 'left'
-        // context.fillStyle = "##FF0000"
-        // 设置渐变样式
-        const grd = context.createLinearGradient(xmid,0,xmid+titleWidth,0)
-        grd.addColorStop(0,"red")
-        grd.addColorStop(0.5,"white")
-        grd.addColorStop(1,"blue")
-        context.fillStyle = grd
-        context.fillText(title, xmid, ymid)
-        // 替代方案是直接用canvas的中线来定位，只需调整文本的textBaseline和textAlign即可
-
-        // 用fillRect绘制挡板
-        const panelHeight = 50,
-        panelWidth = 10
-        context.fillStyle = "brown"
-        context.fillRect(canvas.width-panelWidth, (canvas.height-panelHeight)/2, panelWidth, panelHeight)
-        // 无需context.fill()，若保留则会填充整个画布
-
-        // 用arc方法绘制小球
-        const radius = 10
-        context.beginPath()
-        context.arc(canvas.width/2, canvas.height/2, radius, 0, 2 * Math.PI)
-        context.fillStyle = "white"
-        context.strokeStyle = "black"
-        context.stroke()
-        context.fill()
-
-        // 使用定时器让小球动起来
+        // 小球的位置
         let ballPos = {x: canvas.width/2, y: canvas.height/2}
+
+        // 把所有需要刷新重绘的代码放入一个函数里：
+        function render() {
+            // 给画布添加浅色背景
+            context.beginPath()
+            context.moveTo(0, 0)
+            context.lineTo(canvas.width, 0)
+            context.lineTo(canvas.width, canvas.height)
+            context.lineTo(0, canvas.height)
+            context.lineTo(0, 0)
+            context.fillStyle = "whitesmoke"
+            context.fill()
+
+            // 使用循环体绘制虚线作为分界线
+            const dashGap = 10
+            let StartY = 0
+            context.beginPath()
+            while (StartY <= canvas.height) {
+                // 移动到起始点StartY
+                context.moveTo(canvas.width / 2, StartY)
+                // lineTo到起始点加一段距离dashGap
+                context.lineTo(canvas.width / 2, StartY + dashGap)
+                // StartX加2倍的dashGap
+                StartY += 2 * dashGap
+            }
+            context.lineWidth = 1
+            context.strokeStyle = "grey"
+            context.stroke()
+
+            // 添加阴影效果
+            context.shadowBlur = 1
+            context.shadowOffsetX = 2
+            context.shadowOffsetY = 2
+            context.shadowColor = "grey"
+
+            // 设置文字样式
+            context.font = "italic 1000 20px STHeiti"
+            const titleWidth = context.measureText(title).width,
+                titleHight = context.measureText("M").width,
+                // 文字居中位置
+                xmid = (canvas.width - titleWidth) / 2,
+                ymid = (canvas.height - titleHight) / 2
+            // 设置文本绘制基线
+            context.textBaseline = 'top'
+            context.textAlign = 'left'
+            // context.fillStyle = "##FF0000"
+            // 设置渐变样式
+            const grd = context.createLinearGradient(xmid, 0, xmid + titleWidth, 0)
+            grd.addColorStop(0, "red")
+            grd.addColorStop(0.5, "white")
+            grd.addColorStop(1, "blue")
+            context.fillStyle = grd
+            context.fillText(title, xmid, ymid)
+            // 替代方案是直接用canvas的中线来定位，只需调整文本的textBaseline和textAlign即可
+
+            // 用fillRect绘制挡板
+            const panelHeight = 50,
+                panelWidth = 10
+            context.fillStyle = "brown"
+            context.fillRect(canvas.width - panelWidth, (canvas.height - panelHeight) / 2, panelWidth, panelHeight)
+            // 无需context.fill()，若保留则会填充整个画布
+
+            // 用arc方法绘制小球
+            const radius = 10
+            context.beginPath()
+            context.arc(ballPos.x, ballPos.y, radius, 0, 2 * Math.PI)
+            context.fillStyle = "white"
+            context.strokeStyle = "black"
+            context.stroke()
+            context.fill()
+        }
+
         setInterval(function (){
             // 清屏
             context.clearRect(0, 0, canvas.width, canvas.height)
             ballPos.x += 2
-            ballPos.y += 2
-            context.fillStyle = "white"
-            context.beginPath()
-            context.arc(ballPos.x, ballPos.y, radius, 0, 2*Math.PI)
-            context.fill()
+            ballPos.y += 1
+            render()
         }, 500)
 
     </script>
