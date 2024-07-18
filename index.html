@@ -23,6 +23,23 @@
 
         // 小球的位置
         let ballPos = {x: canvas.width/2, y: canvas.height/2}
+        // 小球速度
+        let speedX = 8
+        let speedY = 4
+
+        // 小球与墙壁四周的碰撞检查
+        function testHitWall(){
+            if(ballPos.x > canvas.width){
+                speedX = -speedX
+            } else if(ballPos.x < 0){
+                speedX = -speedX
+            }
+            if(ballPos.y > canvas.height){
+                speedY = -speedY
+            } else if(ballPos.y < 0){
+                speedY = -speedY
+            }
+        }
 
         // 把所有需要刷新重绘的代码放入一个函数里：
         function render() {
@@ -98,8 +115,9 @@
         setInterval(function (){
             // 清屏
             context.clearRect(0, 0, canvas.width, canvas.height)
-            ballPos.x += 2
-            ballPos.y += 1
+            testHitWall()
+            ballPos.x += speedX
+            ballPos.y += speedY
             render()
         }, 500)
 
