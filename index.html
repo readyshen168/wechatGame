@@ -24,8 +24,8 @@
         // 小球的位置
         let ballPos = {x: canvas.width/2, y: canvas.height/2}
         // 小球速度
-        let speedX = 8
-        let speedY = 4
+        let speedX = 2
+        let speedY = 1
         const radius = 10
 
         // 小球与墙壁四周的碰撞检查
@@ -112,6 +112,7 @@
             context.fill()
         }
 
+        /*
         setInterval(function (){
             // 清屏
             context.clearRect(0, 0, canvas.width, canvas.height)
@@ -120,6 +121,18 @@
             ballPos.y += speedY
             render()
         }, 50)
+        */
+
+        // 改进动画流畅度
+        function run(){
+            context.clearRect(0, 0, canvas.width, canvas.height)
+            testHitWall()
+            ballPos.x += speedX
+            ballPos.y += speedY
+            render()
+            requestAnimationFrame(run)
+        }
+        run()
 
     </script>
 
