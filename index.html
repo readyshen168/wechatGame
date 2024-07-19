@@ -26,17 +26,18 @@
         // 小球速度
         let speedX = 8
         let speedY = 4
+        const radius = 10
 
         // 小球与墙壁四周的碰撞检查
         function testHitWall(){
-            if(ballPos.x > canvas.width){
+            if(ballPos.x > canvas.width - radius){
                 speedX = -speedX
-            } else if(ballPos.x < 0){
+            } else if(ballPos.x < radius){
                 speedX = -speedX
             }
-            if(ballPos.y > canvas.height){
+            if(ballPos.y > canvas.height - radius){
                 speedY = -speedY
-            } else if(ballPos.y < 0){
+            } else if(ballPos.y < radius){
                 speedY = -speedY
             }
         }
@@ -103,7 +104,6 @@
             // 无需context.fill()，若保留则会填充整个画布
 
             // 用arc方法绘制小球
-            const radius = 10
             context.beginPath()
             context.arc(ballPos.x, ballPos.y, radius, 0, 2 * Math.PI)
             context.fillStyle = "white"
@@ -119,7 +119,7 @@
             ballPos.x += speedX
             ballPos.y += speedY
             render()
-        }, 500)
+        }, 50)
 
     </script>
 
