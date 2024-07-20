@@ -15,6 +15,7 @@
     <canvas id="canvas">
     您的浏览器不支持html5 canvas
     </canvas>
+    <img id="mood" style="width: 100px;" src="pattern.png"/>
 
     <script>
         const canvas = document.getElementById("canvas"),
@@ -88,7 +89,7 @@
             context.textAlign = 'left'
             // context.fillStyle = "##FF0000"
             // 设置渐变样式
-            const grd = context.createLinearGradient(xmid, 0, xmid + titleWidth, 0)
+            let grd = context.createLinearGradient(xmid, 0, xmid + titleWidth, 0)
             grd.addColorStop(0, "red")
             grd.addColorStop(0.5, "white")
             grd.addColorStop(1, "blue")
@@ -96,10 +97,13 @@
             context.fillText(title, xmid, ymid)
             // 替代方案是直接用canvas的中线来定位，只需调整文本的textBaseline和textAlign即可
 
-            // 用fillRect绘制挡板
-            const panelHeight = 50,
+            // 用fillRect绘制挡板, 添加图片花纹
+            let panelHeight = 50,
                 panelWidth = 10
-            context.fillStyle = "brown"
+            let pattern = "brown"
+            let img = document.getElementById("mood")
+            pattern = context.createPattern(img, "no-repeat")
+            context.fillStyle = pattern
             context.fillRect(canvas.width - panelWidth, (canvas.height - panelHeight) / 2, panelWidth, panelHeight)
             // 无需context.fill()，若保留则会填充整个画布
 
