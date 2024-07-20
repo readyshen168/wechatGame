@@ -102,7 +102,9 @@
                 panelWidth = 10
             let pattern = "brown"
             let img = document.getElementById("mood")
-            pattern = context.createPattern(img, "no-repeat")
+            img.onload = function (){
+                pattern = context.createPattern(img, "no-repeat")
+            }
             context.fillStyle = pattern
             context.fillRect(canvas.width - panelWidth, (canvas.height - panelHeight) / 2, panelWidth, panelHeight)
             // 无需context.fill()，若保留则会填充整个画布
