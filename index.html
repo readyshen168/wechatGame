@@ -20,14 +20,23 @@
     <script>
         const canvas = document.getElementById("canvas"),
         context = canvas.getContext("2d"),
-        title = "挡板小游戏"
-
+        title = "挡板小游戏",
         // 小球的位置
-        let ballPos = {x: canvas.width/2, y: canvas.height/2}
+        ballPos = {x: canvas.width/2, y: canvas.height/2},
+        // 小球半径
+        radius = 10,
+        // 挡板尺寸
+        panelHeight = 50,
+        panelWidth = 10
         // 小球速度
-        let speedX = 2
-        let speedY = 1
-        const radius = 10
+        let speedX = 2, speedY = 1
+        // 挡板style
+        let pattern = "brown"
+        const img = document.getElementById("mood")
+        // 加载挡板木纹图片
+        img.onload = function (){
+            pattern = context.createPattern(img, "no-repeat")
+        }
 
         // 小球与墙壁四周的碰撞检查
         function testHitWall(){
@@ -98,13 +107,6 @@
             // 替代方案是直接用canvas的中线来定位，只需调整文本的textBaseline和textAlign即可
 
             // 用fillRect绘制挡板, 添加图片花纹
-            let panelHeight = 50,
-                panelWidth = 10
-            let pattern = "brown"
-            let img = document.getElementById("mood")
-            img.onload = function (){
-                pattern = context.createPattern(img, "no-repeat")
-            }
             context.fillStyle = pattern
             context.fillRect(canvas.width - panelWidth, (canvas.height - panelHeight) / 2, panelWidth, panelHeight)
             // 无需context.fill()，若保留则会填充整个画布
