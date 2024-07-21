@@ -156,7 +156,17 @@
 
             // 无需context.fill()，若保留则会填充整个画布
 
+            // 添加分数
+            context.font = "100 12px STHeiti"
+            context.fillStyle = "lightgray"
+            context.shadowOffsetY = context.shadowOffsetX = 0
+            drawText(context, 10, canvas.height-20, "用户" + userScore)
+            const sysScoreText  = "系统" + systemScore
+            drawText(context, canvas.width - 20 - context.measureText(sysScoreText).width, canvas.height - 20, sysScoreText)
+
+
             // 用arc方法绘制小球
+            context.shadowOffsetY = context.shadowOffsetX = 2 // 恢复小球阴影
             context.beginPath()
             context.arc(ballPos.x, ballPos.y, radius, 0, 2 * Math.PI)
             context.fillStyle = "white"
@@ -176,6 +186,10 @@
         }, 50)
         */
 
+        // 在指定位置绘制文本
+        function drawText(context, x, y, txt){
+            context.fillText(txt, x, y)
+        }
         // 根据分数判断游戏是否应该结束
         function checkScore(){
             if(systemScore >= 3 || userScore >= 3){
@@ -199,7 +213,7 @@
             }
             // 捕捉鼠标的坐标，并以此确定左挡板的y坐标leftPanelY
             canvas.addEventListener("mousemove", function (e){
-                let y = e.clientY - canvas.getBoundingClientRect().top - panelHeight/2
+                let y = e.clientY - canvas.getBoundingClientRect().top - panelHeight / 2
                 if(y > 0 && y < leftPanelYmax){
                    leftPanelY = y
                 }
@@ -207,6 +221,13 @@
             render()
             if(!gameIsOver){
                 requestAnimationFrame(run)
+            }else{
+                const txt = "游戏结束"
+                context.font = "900 26px STHeiti"
+                context.fillStyle = "black"
+                context.textBaseline = "middle"
+                context.clearRect(0, 0, canvas.width, canvas.height)
+                drawText(context, canvas.width / 2 - context.measureText(txt).width / 2, canvas.height / 2, txt)
             }
         }
         run()
