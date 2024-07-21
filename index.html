@@ -31,12 +31,16 @@
         // 右挡板的起始位置
         centerY = (canvas.height - panelHeight)/2,
         // 右挡板在y轴上的移动范围
-        rightPanelMoveRange = 20
+        rightPanelMoveRange = 20,
+        // 左挡板的最低位置
+        leftPanelYmax = canvas.height - panelHeight
 
         // 小球速度
         let speedX = 2, speedY = 1,
         // 挡板style
         pattern = "brown",
+        // 左挡板的位置
+        leftPanelY = (canvas.height - panelHeight)/2,
         // 右挡板在y轴上的位置和速度
         rightPanelY = (canvas.height-panelHeight)/2,
         rightPanelSpeedY = 0.5
@@ -120,7 +124,7 @@
             // 右挡板
             context.fillRect(canvas.width - panelWidth, rightPanelY, panelWidth, panelHeight)
             // 左挡板
-            context.fillRect(0, centerY, panelWidth, panelHeight)
+            context.fillRect(0, leftPanelY, panelWidth, panelHeight)
 
             // 无需context.fill()，若保留则会填充整个画布
 
@@ -157,6 +161,13 @@
             if(rightPanelY < centerY - rightPanelMoveRange || rightPanelY > centerY + rightPanelMoveRange){
                 rightPanelSpeedY = -rightPanelSpeedY
             }
+            // 捕捉鼠标的坐标，并以此确定左挡板的y坐标leftPanelY
+            canvas.addEventListener("mousemove", function (e){
+                let y = e.clientY - canvas.getBoundingClientRect().top - panelHeight/2
+                if(y > 0 && y < leftPanelYmax){
+                   leftPanelY = y
+                }
+            })
             render()
             requestAnimationFrame(run)
         }
