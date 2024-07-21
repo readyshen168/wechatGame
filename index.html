@@ -27,13 +27,22 @@
         radius = 10,
         // 挡板尺寸
         panelHeight = 50,
-        panelWidth = 10
+        panelWidth = 10,
+        // 右挡板的起始位置
+        centerY = (canvas.height - panelHeight)/2,
+        // 右挡板在y轴上的移动范围
+        rightPanelMoveRange = 20
+
         // 小球速度
-        let speedX = 2, speedY = 1
+        let speedX = 2, speedY = 1,
         // 挡板style
-        let pattern = "brown"
-        const img = document.getElementById("mood")
+        pattern = "brown",
+        // 右挡板在y轴上的位置和速度
+        rightPanelY = (canvas.height-panelHeight)/2,
+        rightPanelSpeedY = 0.5
+
         // 加载挡板木纹图片
+        const img = document.getElementById("mood")
         img.onload = function (){
             pattern = context.createPattern(img, "no-repeat")
         }
@@ -109,9 +118,9 @@
             // 用fillRect绘制挡板, 添加图片花纹
             context.fillStyle = pattern
             // 右挡板
-            context.fillRect(canvas.width - panelWidth, (canvas.height - panelHeight) / 2, panelWidth, panelHeight)
+            context.fillRect(canvas.width - panelWidth, rightPanelY, panelWidth, panelHeight)
             // 左挡板
-            context.fillRect(0, (canvas.height - panelHeight) / 2, panelWidth, panelHeight)
+            context.fillRect(0, centerY, panelWidth, panelHeight)
 
             // 无需context.fill()，若保留则会填充整个画布
 
@@ -138,9 +147,16 @@
         // 改进动画流畅度
         function run(){
             context.clearRect(0, 0, canvas.width, canvas.height)
+            // 检测小球的碰壁
             testHitWall()
+            // 更新小球位置
             ballPos.x += speedX
             ballPos.y += speedY
+            // 右挡板的移动，更新其y轴位置
+            rightPanelY += rightPanelSpeedY
+            if(rightPanelY < centerY - rightPanelMoveRange || rightPanelY > centerY + rightPanelMoveRange){
+                rightPanelSpeedY = -rightPanelSpeedY
+            }
             render()
             requestAnimationFrame(run)
         }
