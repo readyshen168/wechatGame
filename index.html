@@ -43,7 +43,13 @@
         leftPanelY = (canvas.height - panelHeight)/2,
         // 右挡板在y轴上的位置和速度
         rightPanelY = (canvas.height-panelHeight)/2,
-        rightPanelSpeedY = 0.5
+        rightPanelSpeedY = 0.5,
+        // 用户分数
+        userScore = 0,
+        // 系统分数
+        systemScore = 0,
+        // 判断游戏是否结束
+        gameIsOver = false
 
         // 加载挡板木纹图片
         const img = document.getElementById("mood")
@@ -65,12 +71,14 @@
             }
         }
 
-        // 小球与挡板的碰撞检查
+        // 小球与挡板的碰撞检查, 计入计分模块
         function testHitPanel(){
             // 左挡板
             if(ballPos.x < panelWidth + radius){
                if(ballPos.y > leftPanelY && ballPos.y < (leftPanelY + panelHeight)){
                    speedX = -speedX
+                   userScore++
+                   checkScore()
                    console.log("当！撞左挡板")
                }
             }
@@ -78,6 +86,8 @@
             if(ballPos.x > canvas.width - panelWidth - radius){
                 if(ballPos.y > rightPanelY && ballPos.y < (rightPanelY + panelHeight)){
                     speedX = -speedX
+                    systemScore++
+                    checkScore()
                     console.log("当！撞右挡板")
                 }
             }
@@ -166,6 +176,13 @@
         }, 50)
         */
 
+        // 根据分数判断游戏是否应该结束
+        function checkScore(){
+            if(systemScore >= 3 || userScore >= 3){
+                gameIsOver = true
+                console.log("Game Over")
+            }
+        }
         // 改进动画流畅度
         function run(){
             context.clearRect(0, 0, canvas.width, canvas.height)
@@ -188,7 +205,9 @@
                 }
             })
             render()
-            requestAnimationFrame(run)
+            if(!gameIsOver){
+                requestAnimationFrame(run)
+            }
         }
         run()
 
