@@ -21,7 +21,7 @@
         const canvas = document.getElementById("canvas"),
         context = canvas.getContext("2d"),
         title = "挡板小游戏",
-        // 小球的位置
+        // 小球的球心位置
         ballPos = {x: canvas.width/2, y: canvas.height/2},
         // 小球半径
         radius = 10,
@@ -62,6 +62,24 @@
                 speedY = -speedY
             } else if(ballPos.y < radius){
                 speedY = -speedY
+            }
+        }
+
+        // 小球与挡板的碰撞检查
+        function testHitPanel(){
+            // 左挡板
+            if(ballPos.x < panelWidth + radius){
+               if(ballPos.y > leftPanelY && ballPos.y < (leftPanelY + panelHeight)){
+                   speedX = -speedX
+                   console.log("当！撞左挡板")
+               }
+            }
+            // 右挡板
+            if(ballPos.x > canvas.width - panelWidth - radius){
+                if(ballPos.y > rightPanelY && ballPos.y < (rightPanelY + panelHeight)){
+                    speedX = -speedX
+                    console.log("当！撞右挡板")
+                }
             }
         }
 
@@ -153,6 +171,7 @@
             context.clearRect(0, 0, canvas.width, canvas.height)
             // 检测小球的碰壁
             testHitWall()
+            testHitPanel()
             // 更新小球位置
             ballPos.x += speedX
             ballPos.y += speedY
