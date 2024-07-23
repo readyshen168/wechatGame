@@ -190,6 +190,7 @@
         function drawText(context, x, y, txt){
             context.fillText(txt, x, y)
         }
+
         // 根据分数判断游戏是否应该结束
         function checkScore(){
             if(systemScore >= 3 || userScore >= 3){
@@ -197,6 +198,7 @@
                 console.log("Game Over")
             }
         }
+
         // 改进动画流畅度
         function run(){
             context.clearRect(0, 0, canvas.width, canvas.height)
@@ -218,7 +220,10 @@
                    leftPanelY = y
                 }
             })
+            // 重新渲染画面各元素
             render()
+
+            // 处理游戏的循环进行
             if(!gameIsOver){
                 requestAnimationFrame(run)
             }else{
@@ -235,7 +240,21 @@
                 context.font = "12px FangSong"
                 context.fillStyle = "gray"
                 drawText(context, (canvas.width-context.measureText(restartTip).width) / 2, canvas.height / 2 + 25, restartTip )
+
+                // 监听单击事件
+                canvas.addEventListener("click", restartGame)
             }
+        }
+
+        // 重启游戏的单击事件句柄
+        function restartGame(e){
+            // 移除监听
+            canvas.removeEventListener("click", restartGame)
+            // 重设游戏变量
+            userScore = 0
+            systemScore = 0
+            gameIsOver = false
+            run()
         }
         run()
 
