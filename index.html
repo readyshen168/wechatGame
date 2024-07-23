@@ -39,10 +39,9 @@
         let speedX = 2, speedY = 1,
         // 挡板style
         pattern = "brown",
-        // 左挡板的位置
-        leftPanelY = (canvas.height - panelHeight)/2,
-        // 右挡板在y轴上的位置和速度
-        rightPanelY = (canvas.height-panelHeight)/2,
+        // 左右挡板的初始位置
+        leftPanelY = rightPanelY = (canvas.height-panelHeight) / 2,
+        // 右挡板在y轴上的和速度
         rightPanelSpeedY = 0.5,
         // 用户分数
         userScore = 0,
@@ -81,9 +80,8 @@
                    checkScore()
                    console.log("当！撞左挡板")
                }
-            }
-            // 右挡板
-            if(ballPos.x > canvas.width - panelWidth - radius){
+                // 右挡板
+            } else if(ballPos.x > canvas.width - panelWidth - radius){
                 if(ballPos.y > rightPanelY && ballPos.y < (rightPanelY + panelHeight)){
                     speedX = -speedX
                     systemScore++
@@ -195,6 +193,8 @@
         function checkScore(){
             if(systemScore >= 3 || userScore >= 3){
                 gameIsOver = true
+                console.log(`system score: ${systemScore}`)
+                console.log(`user score: ${userScore}`)
                 console.log("Game Over")
             }
         }
@@ -254,6 +254,10 @@
             userScore = 0
             systemScore = 0
             gameIsOver = false
+            // 重置小球位置
+            // 无法给const变量重新赋值：ballPos = {x:canvas.width/2, y:canvas.height/2}
+            ballPos.x = canvas.width / 2
+            ballPos.y = canvas.height / 2
             run()
         }
         run()
