@@ -18,9 +18,9 @@
     <!--挡板材质图像-->
     <img id="mood" style="width: 100px;" src="pattern.png"/>
     <!--音频对象-->
-    <audio>
-        <source src="./click.ogg" type="audio/ogg">
-        <source src="./click.mp3" type="audio/mp3">
+    <audio id="hit-sound">
+<!--        <source src="./click.ogg" type="audio/ogg">-->
+        <source src="./click_sound_1.mp3" type="audio/mp3">
     </audio>
 
     <script>
@@ -85,6 +85,8 @@
                    userScore++
                    checkScore()
                    console.log("当！撞左挡板")
+                   // 添加音效
+                   playHitAudio()
                }
                 // 右挡板
             } else if(ballPos.x > canvas.width - panelWidth - radius){
@@ -93,6 +95,8 @@
                     systemScore++
                     checkScore()
                     console.log("当！撞右挡板")
+                    // 添加音效
+                    playHitAudio()
                 }
             }
         }
@@ -199,10 +203,20 @@
         function checkScore(){
             if(systemScore >= 3 || userScore >= 3){
                 gameIsOver = true
-                console.log(`system score: ${systemScore}`)
-                console.log(`user score: ${userScore}`)
                 console.log("Game Over")
             }
+            console.log(`bal posistioX: ${ballPos.x}` )
+            console.log(`bal posistioY: ${ballPos.y}` )
+            console.log(`bal speedX: ${speedX}` )
+            console.log(`bal speedY: ${speedY}` )
+            console.log(`system score: ${systemScore}`)
+            console.log(`user score: ${userScore}`)
+        }
+
+        // 播放单击音效
+        function playHitAudio(){
+            const audio = document.getElementById("hit-sound")
+            audio.play()
         }
 
         // 改进动画流畅度
