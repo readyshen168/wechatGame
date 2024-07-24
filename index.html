@@ -78,18 +78,8 @@
 
         // 小球与挡板的碰撞检查, 计入计分模块
         function testHitPanel(){
-            // 左挡板
-            if(ballPos.x < panelWidth + radius){
-               if(ballPos.y > leftPanelY && ballPos.y < (leftPanelY + panelHeight)){
-                   speedX = -speedX
-                   userScore++
-                   checkScore()
-                   console.log("当！撞左挡板")
-                   // 添加音效
-                   playHitAudio()
-               }
-                // 右挡板
-            } else if(ballPos.x > canvas.width - panelWidth - radius){
+             // 右挡板
+             if(ballPos.x > canvas.width - panelWidth - radius){
                 if(ballPos.y > rightPanelY && ballPos.y < (rightPanelY + panelHeight)){
                     speedX = -speedX
                     systemScore++
@@ -98,7 +88,18 @@
                     // 添加音效
                     playHitAudio()
                 }
+             // 左挡板
+            } else if(ballPos.x < panelWidth + radius) {
+                 if (ballPos.y > leftPanelY && ballPos.y < (leftPanelY + panelHeight)) {
+                     speedX = -speedX
+                     userScore++
+                     checkScore()
+                     console.log("当！撞左挡板")
+                     // 添加音效
+                     playHitAudio()
+                 }
             }
+
         }
 
         // 把所有需要刷新重绘的代码放入一个函数里：
