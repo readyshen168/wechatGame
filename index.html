@@ -66,8 +66,18 @@
         function testHitWall(){
             if(ballPos.x > canvas.width - radius){
                 speedX = -speedX
+                // 测试代码：碰右边壁后的小球状态
+                console.log(`ball Xposition:${ballPos.x}`)
+                console.log(`ball Yposition:${ballPos.y}`)
+                console.log(`ball Xspeed:${speedX}`)
+                console.log(`ball Yspeed:${speedY}`)
             } else if(ballPos.x < radius){
                 speedX = -speedX
+                // 测试代码：碰左边壁后的小球状态
+                console.log(`ball Xposition:${ballPos.x}`)
+                console.log(`ball Yposition:${ballPos.y}`)
+                console.log(`ball Xspeed:${speedX}`)
+                console.log(`ball Yspeed:${speedY}`)
             }
             if(ballPos.y > canvas.height - radius){
                 speedY = -speedY
