@@ -214,6 +214,10 @@ function stopMusic(){
 }
 
 // 绘制静音按钮
+const btnX = canvas.width - 40,
+    btnY = 2 ,
+    btnWidth = 20,
+    btnHeight = 20
 function drawMuteButton(){
     const btnImg = new Image()
     // 背景音乐状态
@@ -224,7 +228,7 @@ function drawMuteButton(){
         btnImg.src = "./no-sound.png"
     }
     context.fillStyle = context.createPattern(btnImg, "no-repeat")
-    context.drawImage(btnImg, 0, 0, 512,512, 20, 0, 20, 20)
+    context.drawImage(btnImg, 0, 0, 512,512, btnX, btnY, btnWidth, btnHeight)
 
 }
 
