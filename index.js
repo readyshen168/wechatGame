@@ -216,7 +216,13 @@ function stopMusic(){
 // 绘制静音按钮
 function drawMuteButton(){
     const btnImg = new Image()
-    btnImg.src = "./sound.png"
+    // 背景音乐状态
+    let bgMusicPlaying = bgAudio.currentTime > 0 && !bgAudio.paused
+    if(bgMusicPlaying){
+        btnImg.src = "./sound.png"
+    }else{
+        btnImg.src = "./no-sound.png"
+    }
     context.fillStyle = context.createPattern(btnImg, "no-repeat")
     context.drawImage(btnImg, 0, 0, 512,512, 20, 0, 20, 20)
 
