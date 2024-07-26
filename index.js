@@ -219,6 +219,11 @@ const btnX = canvas.width - 40,
     btnWidth = 20,
     btnHeight = 20
 function drawMuteButton(){
+    // 离屏法绘制按钮
+    const btnCanvas = document.createElement("canvas")
+    btnCanvas.width = 512
+    btnCanvas.height = 512
+    const btnContext = btnCanvas.getContext('2d')
     const btnImg = new Image()
     // 背景音乐状态
     let bgMusicPlaying = bgAudio.currentTime > 0 && !bgAudio.paused
@@ -227,8 +232,9 @@ function drawMuteButton(){
     }else{
         btnImg.src = "./no-sound.png"
     }
-    context.fillStyle = context.createPattern(btnImg, "no-repeat")
-    context.drawImage(btnImg, 0, 0, 512,512, btnX, btnY, btnWidth, btnHeight)
+    btnContext.fillStyle = btnContext.createPattern(btnImg, "no-repeat")
+    btnContext.fillRect(0, 0, btnCanvas.width, btnCanvas.height)
+    context.drawImage(btnCanvas, 0, 0, btnCanvas.width, btnCanvas.height, btnX, btnY, btnWidth, btnHeight)
 
 }
 
