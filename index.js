@@ -142,10 +142,9 @@ function render() {
     context.font = "100 12px STHeiti"
     context.fillStyle = "lightgray"
     context.shadowOffsetY = context.shadowOffsetX = 0
-    drawText(context, 10, canvas.height-20, "用户" + userScore)
+    drawText(context, 20, canvas.height-20, "用户" + userScore)
     const sysScoreText  = "系统" + systemScore
     drawText(context, canvas.width - 20 - context.measureText(sysScoreText).width, canvas.height - 20, sysScoreText)
-
 
     // 用arc方法绘制小球
     context.shadowOffsetY = context.shadowOffsetX = 2 // 恢复小球阴影
@@ -155,6 +154,9 @@ function render() {
     context.strokeStyle = "black"
     context.stroke()
     context.fill()
+
+    //绘制静音按钮
+    drawMuteButton()
 }
 
 /*
@@ -187,10 +189,37 @@ function checkScore(){
     console.log(`user score: ${userScore}`)
 }
 
-// 播放单击音效
+// 播放碰撞音效
 function playHitAudio(){
     const audio = document.getElementById("hit-sound")
     audio.play()
+}
+
+// 创建背景音乐
+const bgAudio = new Audio("bu-sound")
+if(bgAudio.canPlayType("audio/mp3")){
+    bgAudio.src = "./bgmusic.mp3"
+}else if(bgAudio.canPlayType(("audio/ogg"))){
+    bgAudio.src = "./bgmusic.ogg"
+}
+
+// 播放背景音乐
+function playbgMusic(){
+    bgAudio.currentTime = 0
+    bgAudio.play()
+}
+// 停止播放背景音乐
+function stopMusic(){
+    bgAudio.pause()
+}
+
+// 绘制静音按钮
+function drawMuteButton(){
+    const btnImg = new Image()
+    btnImg.src = "./sound.png"
+    context.fillStyle = context.createPattern(btnImg, "no-repeat")
+    context.drawImage(btnImg, 0, 0, 512,512, 20, 0, 20, 20)
+
 }
 
 // 改进动画流畅度
@@ -237,6 +266,9 @@ function run(){
 
         // 监听单击事件
         canvas.addEventListener("click", restartGame)
+
+        // 停止播放背景音乐
+        stopMusic()
     }
 }
 
@@ -252,6 +284,9 @@ function restartGame(e){
     // 无法给const变量重新赋值：ballPos = {x:canvas.width/2, y:canvas.height/2}
     ballPos.x = canvas.width / 2
     ballPos.y = canvas.height / 2
+    // 播放背景音乐
+    playbgMusic()
     run()
 }
+playbgMusic()
 run()
