@@ -214,17 +214,21 @@ function stopMusic(){
 }
 
 // 绘制静音按钮
-const btnX = canvas.width - 40,
-    btnY = 2 ,
-    btnWidth = 20,
-    btnHeight = 20
 function drawMuteButton(){
+    // 按钮参数
+    const btnX = canvas.width - 40,
+        btnY = 2 ,
+        btnWidth = 20,
+        btnHeight = 20,
     // 离屏法绘制按钮
-    const btnCanvas = document.createElement("canvas")
+        btnCanvas = document.createElement("canvas"),
+        btnContext = btnCanvas.getContext('2d'),
+    // 按钮花纹图像
+        btnImg = new Image()
+
     btnCanvas.width = 512
     btnCanvas.height = 512
-    const btnContext = btnCanvas.getContext('2d')
-    const btnImg = new Image()
+
     // 背景音乐状态
     let bgMusicPlaying = bgAudio.currentTime > 0 && !bgAudio.paused
     if(bgMusicPlaying){
@@ -232,10 +236,11 @@ function drawMuteButton(){
     }else{
         btnImg.src = "./no-sound.png"
     }
+    // 绘制按钮
     btnContext.fillStyle = btnContext.createPattern(btnImg, "no-repeat")
     btnContext.fillRect(0, 0, btnCanvas.width, btnCanvas.height)
+    // 离屏转绘
     context.drawImage(btnCanvas, 0, 0, btnCanvas.width, btnCanvas.height, btnX, btnY, btnWidth, btnHeight)
-
 }
 
 // 改进动画流畅度
