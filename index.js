@@ -213,19 +213,23 @@ function stopMusic(){
     bgAudio.pause()
 }
 
+// 按钮参数
+const btnX = canvas.width - 40,
+    btnY = 2 ,
+    btnWidth = 20,
+    btnHeight = 20
+
 // 绘制静音按钮
 function drawMuteButton(){
-    // 按钮参数
-    const btnX = canvas.width - 40,
-        btnY = 2 ,
-        btnWidth = 20,
-        btnHeight = 20,
-    // 离屏法绘制按钮
-        btnCanvas = document.createElement("canvas"),
-        btnContext = btnCanvas.getContext('2d'),
-    // 按钮花纹图像
-        btnImg = new Image()
 
+    // 离屏法绘制按钮
+    const btnCanvas = document.createElement("canvas"),
+    btnContext = btnCanvas.getContext('2d'),
+
+    // 按钮花纹图像
+    btnImg = new Image()
+
+    // 离屏尺寸与图片大小一致
     btnCanvas.width = 512
     btnCanvas.height = 512
 
@@ -242,6 +246,20 @@ function drawMuteButton(){
     // 离屏转绘
     context.drawImage(btnCanvas, 0, 0, btnCanvas.width, btnCanvas.height, btnX, btnY, btnWidth, btnHeight)
 }
+
+
+//监听背景音乐按钮的单击事件
+function controlBgMusic(){
+    canvas.addEventListener("click", function (e){
+        const pos = {x:e.offsetX, y:e.clientY}
+        if(pos.x > btnX && pos.x < (btnX + btnWidth) && pos.y > btnY && pos.y < (btnY + btnHeight)){
+            console.log("单击了背景音乐按钮")
+            const bgMusicIsPlaying = bgAudio.currentTime > 0 && !bgAudio.paused
+            bgMusicIsPlaying ? stopMusic() : playbgMusic()
+        }
+    })
+}
+
 
 // 改进动画流畅度
 function run(){
@@ -307,7 +325,9 @@ function restartGame(e){
     ballPos.y = canvas.height / 2
     // 播放背景音乐
     playbgMusic()
+    controlBgMusic()
     run()
 }
 playbgMusic()
+controlBgMusic()
 run()
