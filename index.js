@@ -1,6 +1,6 @@
 const canvas = document.getElementById("canvas"),
 context = canvas.getContext("2d"),
-title = "挡板小游戏",
+
 // 小球的球心位置
 ballPos = {x: canvas.width/2, y: canvas.height/2},
 // 小球半径
@@ -75,21 +75,10 @@ function testHitPanel(){
     }
 }
 
-// 把所有需要刷新重绘的代码放入一个函数里：
-function render() {
-    // 给画布添加浅色背景
-    context.beginPath()
-    context.moveTo(0, 0)
-    context.lineTo(canvas.width, 0)
-    context.lineTo(canvas.width, canvas.height)
-    context.lineTo(0, canvas.height)
-    context.lineTo(0, 0)
-    context.fillStyle = "whitesmoke"
-    context.fill()
-
-    // 使用循环体绘制虚线作为分界线
-    const dashGap = 10
-    let StartY = 0
+// 使用循环体绘制虚线作为分界线
+function drawDashLine(){
+    let dashGap = 10,
+        StartY = 0
     context.beginPath()
     while (StartY <= canvas.height) {
         // 移动到起始点StartY
@@ -103,32 +92,50 @@ function render() {
     context.strokeStyle = "grey"
     context.stroke()
 
-    // 添加阴影效果
-    context.shadowBlur = 1
-    context.shadowOffsetX = 2
-    context.shadowOffsetY = 2
-    context.shadowColor = "grey"
+}
 
-    // 设置文字样式
-    context.font = "italic 1000 20px STHeiti"
-    const titleWidth = context.measureText(title).width,
-        titleHight = context.measureText("M").width,
+// 设置标题样式
+function drawTitle(){
+    const title = "挡板小游戏",
+        // 标题参数
+        titleWidth = context.measureText(title).width,
+        // 测量文字的高度
+        // titleHeight = context.measureText("M").width,
         // 文字居中位置
-        xmid = (canvas.width - titleWidth) / 2,
-        ymid = (canvas.height - titleHight) / 2
+        xMid = canvas.width / 2,
+        yMid = canvas.height / 2
+
+    context.font = "italic 1000 20px STHeiti"
+
     // 设置文本绘制基线
-    context.textBaseline = 'top'
-    context.textAlign = 'left'
+    context.textBaseline = 'middle'
+    context.textAlign = 'center'
     // context.fillStyle = "##FF0000"
     // 设置渐变样式
-    let grd = context.createLinearGradient(xmid, 0, xmid + titleWidth, 0)
+    let grd = context.createLinearGradient(xMid-titleWidth/2, 0, xMid + titleWidth/2, 0)
     grd.addColorStop(0, "red")
     grd.addColorStop(0.5, "white")
     grd.addColorStop(1, "blue")
     context.fillStyle = grd
-    context.fillText(title, xmid, ymid)
-    // 替代方案是直接用canvas的中线来定位，只需调整文本的textBaseline和textAlign即可
+    context.fillText(title, xMid, yMid)
 
+}
+
+// 给画布添加浅色背景
+function drawBg(){
+    context.beginPath()
+    context.moveTo(0, 0)
+    context.lineTo(canvas.width, 0)
+    context.lineTo(canvas.width, canvas.height)
+    context.lineTo(0, canvas.height)
+    context.lineTo(0, 0)
+    context.fillStyle = "whitesmoke"
+    context.fill()
+}
+
+
+// 绘制挡板
+function drawPanel(){
     // 用fillRect绘制挡板, 添加图片花纹
     context.fillStyle = pattern
     // 右挡板
@@ -136,18 +143,27 @@ function render() {
     // 左挡板
     context.fillRect(0, leftPanelY, panelWidth, panelHeight)
 
-    // 无需context.fill()，若保留则会填充整个画布
+// 无需context.fill()，若保留则会填充整个画布
+}
 
-    // 添加分数
+// 添加分数
+function drawScore(){
     context.font = "100 12px STHeiti"
     context.fillStyle = "lightgray"
-    context.shadowOffsetY = context.shadowOffsetX = 0
     drawText(context, 20, canvas.height-20, "用户" + userScore)
     const sysScoreText  = "系统" + systemScore
     drawText(context, canvas.width - 20 - context.measureText(sysScoreText).width, canvas.height - 20, sysScoreText)
+}
 
-    // 用arc方法绘制小球
-    context.shadowOffsetY = context.shadowOffsetX = 2 // 恢复小球阴影
+// 用arc方法绘制小球
+function drawBall(){
+    // 添加阴影效果
+    context.shadowBlur = 1
+    context.shadowOffsetX = 2
+    context.shadowOffsetY = 2
+    context.shadowColor = "grey"
+
+    // 画小球
     context.beginPath()
     context.arc(ballPos.x, ballPos.y, radius, 0, 2 * Math.PI)
     context.fillStyle = "white"
@@ -155,6 +171,27 @@ function render() {
     context.stroke()
     context.fill()
 
+    // 去除阴影效果
+    context.shadowOffsetY = context.shadowOffsetX = 0
+}
+
+
+
+// 把所有需要刷新重绘的代码放入一个函数里：
+function render() {
+
+    // 画布背景
+    drawBg()
+    // 画虚线分界线
+    drawDashLine()
+    // 设置标题样式
+    drawTitle()
+    // 绘制挡板
+    drawPanel()
+    // 添加分数
+    drawScore()
+    // 绘制小球
+    drawBall()
     //绘制静音按钮
     drawMuteButton()
 }
@@ -217,17 +254,23 @@ function stopMusic(){
 const btnX = canvas.width - 40,
     btnY = 2 ,
     btnWidth = 20,
-    btnHeight = 20
+    btnHeight = 20,
+    // 按钮花纹图像
+    btnOnImg = new Image(),
+    btnMuteImg = new Image()
+    btnOnImg.src = "./sound.png"
+    btnMuteImg.src = "./no-sound.png"
+
 
 // 绘制静音按钮
 function drawMuteButton(){
 
     // 离屏法绘制按钮
     const btnCanvas = document.createElement("canvas"),
-    btnContext = btnCanvas.getContext('2d'),
+    btnContext = btnCanvas.getContext('2d')
 
-    // 按钮花纹图像
-    btnImg = new Image()
+    // 具体的按钮图像
+    let btn
 
     // 离屏尺寸与图片大小一致
     btnCanvas.width = 512
@@ -236,19 +279,19 @@ function drawMuteButton(){
     // 背景音乐状态
     let bgMusicPlaying = bgAudio.currentTime > 0 && !bgAudio.paused
     if(bgMusicPlaying){
-        btnImg.src = "./sound.png"
+        btn = btnOnImg
     }else{
-        btnImg.src = "./no-sound.png"
+        btn = btnMuteImg
     }
     // 绘制按钮
-    btnContext.fillStyle = btnContext.createPattern(btnImg, "no-repeat")
+    btnContext.fillStyle = btnContext.createPattern(btn, "no-repeat")
     btnContext.fillRect(0, 0, btnCanvas.width, btnCanvas.height)
     // 离屏转绘
     context.drawImage(btnCanvas, 0, 0, btnCanvas.width, btnCanvas.height, btnX, btnY, btnWidth, btnHeight)
 }
 
 
-//监听背景音乐按钮的单击事件
+// 监听背景音乐按钮的单击事件
 function controlBgMusic(){
     canvas.addEventListener("click", function (e){
         const pos = {x:e.offsetX, y:e.clientY}
@@ -258,6 +301,24 @@ function controlBgMusic(){
             bgMusicIsPlaying ? stopMusic() : playbgMusic()
         }
     })
+}
+
+
+// 绘制结束语
+function drawEndGame(){
+    const txt = "游戏结束"
+    context.font = "900 26px STHeiti"
+    context.fillStyle = "black"
+    context.textBaseline = "middle"
+    context.textAlign = "left"
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    drawText(context, canvas.width / 2 - context.measureText(txt).width / 2, canvas.height / 2, txt)
+
+    // 提示用户重新开始游戏
+    const restartTip = "单击屏幕重新开始游戏"
+    context.font = "12px FangSong"
+    context.fillStyle = "gray"
+    drawText(context, (canvas.width-context.measureText(restartTip).width) / 2, canvas.height / 2 + 25, restartTip )
 }
 
 
@@ -289,19 +350,8 @@ function run(){
     if(!gameIsOver){
         requestAnimationFrame(run)
     }else{
-        const txt = "游戏结束"
-        context.shadowOffsetY = context.shadowOffsetX = 0 // 去除阴影
-        context.font = "900 26px STHeiti"
-        context.fillStyle = "black"
-        context.textBaseline = "middle"
-        context.clearRect(0, 0, canvas.width, canvas.height)
-        drawText(context, canvas.width / 2 - context.measureText(txt).width / 2, canvas.height / 2, txt)
-
-        // 提示用户重新开始游戏
-        const restartTip = "单击屏幕重新开始游戏"
-        context.font = "12px FangSong"
-        context.fillStyle = "gray"
-        drawText(context, (canvas.width-context.measureText(restartTip).width) / 2, canvas.height / 2 + 25, restartTip )
+        // 画结束语
+        drawEndGame()
 
         // 监听单击事件
         canvas.addEventListener("click", restartGame)
