@@ -1,3 +1,4 @@
+// 集中声明一些变量
 const canvas = document.getElementById("canvas"),
 context = canvas.getContext("2d"),
 
