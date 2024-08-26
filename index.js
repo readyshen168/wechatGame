@@ -1,7 +1,6 @@
 // 集中声明一些变量
 const canvas = document.getElementById("canvas"),
 context = canvas.getContext("2d"),
-
 // 小球的球心位置
 ballPos = {x: canvas.width/2, y: canvas.height/2},
 // 小球半径
