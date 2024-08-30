@@ -75,7 +75,7 @@ function testHitPanel(){
     }
 }
 
-// 使用循环体绘制虚线作为分界线
+// 使用循环体绘制虚线分界线
 function drawDashLine(){
     let dashGap = 10,
         StartY = 0
